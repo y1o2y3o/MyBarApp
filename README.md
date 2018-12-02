@@ -7,4 +7,4 @@
 	e. 在spring中 mapping class
 	f. 建立模型domain和众多模型类
 	g. 映射模型关系并建表
-https://github.com/zksfromusa/MyBarApp/blob/master/模型.png
+![模型]https://github.com/zksfromusa/MyBarApp/blob/master/模型.png
