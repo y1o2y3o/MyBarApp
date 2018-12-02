@@ -1,0 +1,16 @@
+#MyEclipse Hibernate Properties
+#Sun Dec 02 21:06:37 CST 2018
+genVersionTag=false
+genAnnotations=false
+configFile=/MyBarApp/src/applicationContext.xml
+reStrategyClass=
+sessionFactoryId=sessionFactory
+profile=
+detectM2M=false
+genBasicCompId=false
+keyGenerator=
+createConfigFile=true
+basePersistenceClass=
+detectO2O=false
+useJavaTypes=true
+reSettingsFile=
