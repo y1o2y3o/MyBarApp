@@ -4,4 +4,4 @@
 		b. 添加Spring4.1 facet
 		c. 添加hibernate 5.1 facet
 		d. 在spring中配置hibernate
-    e. 在spring中 mapping class
+    		e. 在spring中 mapping class
