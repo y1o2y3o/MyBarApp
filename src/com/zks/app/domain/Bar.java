@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,9 @@ public class Bar {
 	@JoinTable(name="BAR_LABELS")
 	protected Set<BarLabel> labels = new HashSet<BarLabel>();
 
+	@Embedded
+	protected Image icon;
+	
 	public Bar() {
 	}
 	public Bar(String name) {
@@ -43,6 +47,12 @@ public class Bar {
 
 	public Set<BarLabel> getLabels() {
 		return labels;
+	}
+	public Image getIcon() {
+		return icon;
+	}
+	public void setIcon(Image icon) {
+		this.icon = icon;
 	}
 
 

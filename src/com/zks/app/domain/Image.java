@@ -2,10 +2,12 @@ package com.zks.app.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Image implements Serializable{
+	@Column(name="IMG_MD5")
 	protected String md5;
 	
 	public Image(String md5){

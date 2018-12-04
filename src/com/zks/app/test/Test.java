@@ -1,4 +1,4 @@
-package com.app.zks.test;
+package com.zks.app.test;
 
 import static org.junit.Assert.*;
 
@@ -24,3 +24,5 @@ public class Test {
 		sf.close();
 	}
 }
+
+
