@@ -1,28 +1,24 @@
 package com.zks.app.dao.impl;
 
-import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.zks.app.dao.BarDao;
-import com.zks.app.dao.PostDao;
+import com.zks.app.dao.AccountDao;
 import com.zks.app.domain.Bar;
-import com.zks.app.domain.MainPost;
-import com.zks.app.domain.Post;
+import com.zks.app.domain.User;
 
-@Repository("barDao")
+@Repository("accountDao")
 @Transactional
-public class BarDaoBean implements BarDao{
+public class AccountDaoBean implements AccountDao{
 	@Autowired
 	SessionFactory sessionFactory;
 	
-	// 通过id查找一个Bar
-	public Bar findBarById(Long id){
+	// 通过id查找一个user
+	public User findUserById(Long id){
 		Session session = sessionFactory.getCurrentSession();
-		return (Bar) session.get(Bar.class, id);
+		return (User)session.get(User.class, id);
 	}
 }

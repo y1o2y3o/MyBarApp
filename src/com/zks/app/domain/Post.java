@@ -33,13 +33,13 @@ public abstract class Post {
 	protected Date createOn = new Date();
 	
 	@NotNull
-	@ManyToOne(fetch=FetchType.LAZY,optional=false)
+	@ManyToOne(fetch=FetchType.EAGER,optional=false)
 	@JoinColumn(name="AUTHOR_USER_ID")
 	protected User author;
 	
 	protected String description;
 	
-	@ElementCollection(fetch=FetchType.LAZY)
+	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="POST_PICTURES")
 	protected Set<Image> pictures = new HashSet<Image>();
 	

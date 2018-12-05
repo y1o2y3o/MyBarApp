@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<label for="basic-addon2"><br></label>
     <div class="input-group">
 	  <span class="input-group-addon" id="basic-addon2">密码</span>
-	  <input type="text" class="form-control" name="input_password"placeholder="Password" aria-describedby="basic-addon2"
+	  <input type="password" class="form-control" name="input_password"placeholder="Password" aria-describedby="basic-addon2"
 	  	value="${requestScope.loginForm.input_password }">
 	</div>
 	<input type="submit" value="login">

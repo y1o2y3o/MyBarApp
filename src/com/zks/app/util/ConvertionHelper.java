@@ -1,8 +1,10 @@
 package com.zks.app.util;
 
 import com.zks.app.domain.Bar;
+import com.zks.app.domain.MainPost;
 import com.zks.app.domain.User;
 import com.zks.app.web.form.CreateBarForm;
+import com.zks.app.web.form.CreateMainPostForm;
 import com.zks.app.web.form.RegisterForm;
 
 public class ConvertionHelper {
@@ -17,4 +19,5 @@ public class ConvertionHelper {
 	public static void convertCreateBarForm_Bar(CreateBarForm createBarForm, Bar bar){
 		bar.setName(createBarForm.getInput_name());
 	}
+	
 }

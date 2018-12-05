@@ -1,10 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="zh-CN">
   <head>
@@ -12,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>postlist</title>
+    <title>index</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
@@ -30,31 +28,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="${path }/MyBarApp/Bar/list">返回</a>
+	      <a class="navbar-brand" href="${path }/MyBarApp/index">返回</a>
+
 	    </div>
-		<form class="navbar-form navbar-left" role="search">
-		  <div class="form-group">
-		    <input type="text" class="form-control" placeholder="搜索">
-		  </div>
-		  <button type="submit" class="btn btn-default">搜索</button>
-		</form>
-		<a class="navbar-brand" href="${path }/MyBarApp/Post/create_main?bar_id=${requestScope.bar.id}">新建</a>
 	  </div><!-- /.container-fluid -->
 	</nav>
-	<h1>${requestScope.bar.name}吧</h1>
-	<hr>
-	<h2>帖子：</h2>
-	<div class="panel panel-default">
 	
-	  <!-- Default panel contents -->
-	  <c:forEach var="post" items="${requestScope.postList }">
-	  <div class="panel-heading"><a href="${path }/MyBarApp/Post/main?mainpost_id=${post.id}">${post.title }</a></div>
+	<div class="panel panel-default">
+	  <div class="panel-heading">创建主题帖子</div>
 	  <div class="panel-body">
-	    <p>${post.description }</p>
-	    <hr>${post.author.username}  ${post.createOn }
+	    <form method="post" action="${path }/MyBarApp/Post/create_main">
+	      title: <input type="text" name="input_title" value="${requestScope.createMainPostForm.input_title }">
+	           描述: <input type="text" name="input_description" value="${requestScope.createMainPostForm.input_description }">
+	       <input type="hidden" name="input_bar_id" value="${requestScope.bar_id }">
+	       <input type="hidden" name="input_user_id" value="${sessionScope.user.id }">
+	                   
+	      <input type="submit" value="crate">
+	    </form>
 	  </div>
-		
-	  </c:forEach>
+	
 	</div>
     
   </body>
