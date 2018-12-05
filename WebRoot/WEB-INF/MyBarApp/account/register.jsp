@@ -36,12 +36,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<form method="post" action="${path }/MyBarApp/Account/register">
     <div class="input-group">
 	  <span class="input-group-addon" id="basic-addon1">账号</span>
-	  <input type="text" class="form-control" name="input_account" placeholder="Account" aria-describedby="basic-addon1">
+	  <input type="text" class="form-control" name="input_account" placeholder="Account" aria-describedby="basic-addon1"
+	    value="${requestScope.registerForm.input_account }">
 	</div>
 	<label for="basic-addon2"></label>
     <div class="input-group">
 	  <span class="input-group-addon" id="basic-addon2">密码</span>
-	  <input type="password" class="form-control" name="input_password" placeholder="Password" aria-describedby="basic-addon2">
+	  <input type="password" class="form-control" name="input_password" placeholder="Password" aria-describedby="basic-addon2"
+	  	value="${requestScope.registerForm.input_password }">
 	</div>
     <label for="basic-addon3"></label>
     <div class="input-group">
@@ -50,18 +52,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<div class="input-group">
 	  <span class="input-group-addon" id="basic-addon4">用户名</span>
-	  <input type="text" class="form-control" name="input_username" placeholder="Account" aria-describedby="basic-addon4">
+	  <input type="text" class="form-control" name="input_username" placeholder="Username" aria-describedby="basic-addon4"
+	  	value="${requestScope.registerForm.input_username}">
 	</div>
 	<div class="form-group">
+	<!-- 
       <label class="radio-inline">
         <input type="radio" value="MALE" name="input_gender">男性
       </label>
       <label class="radio-inline">
         <input type="radio" value="FEMALE" name="input_gender">女性
       </label>
+     -->
+     	<input type="text" name="input_gender"
+       		value="${requestScope.registerForm.input_gender }">
     </div>
 	<div class="input-group">
 	  <span class="input-group-addon" id="basic-addon5">手机号</span>
+	  <input type="text" class="form-control" name="input_phonenum" placeholder="Phonenum" aria-describedby="basic-addon5"
+	  	value="${requestScope.registerForm.input_phonenum }">
 	</div>
 	
 	<input type="submit" value="确认"/>

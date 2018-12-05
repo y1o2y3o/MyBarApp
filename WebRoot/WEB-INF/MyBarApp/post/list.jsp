@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -11,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>login</title>
+    <title>postlist</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
@@ -23,28 +24,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  <div class="container-fluid">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 	    <div class="navbar-header">
-	     
-	      <a class="navbar-brand" href="${path }/MyBarApp/index">返回</a>
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="${path }/MyBarApp/Bar/list">返回</a>
 	    </div>
+		<form class="navbar-form navbar-left" role="search">
+		  <div class="form-group">
+		    <input type="text" class="form-control" placeholder="搜索">
+		  </div>
+		  <button type="submit" class="btn btn-default">搜索</button>
+		</form>
 	  </div><!-- /.container-fluid -->
 	</nav>
+	<h1>${requestScope.bar.name}吧</h1>
+	<hr>
+	<div class="panel panel-default">
 	
-	<div class="page-header">
-	  <h2>欢迎登陆贴吧 <small>MyBarApp</small></h2>
+	  <!-- Default panel contents -->
+	  <c:forEach var="post" items="${requestScope.postList }">
+	  <div class="panel-heading"><a href="${path }/MyBarApp/Post/bar=">${post.name }</a></div>
+	  <div class="panel-body">
+	    <p>...</p>
+	  </div>
+	  </c:forEach>
 	</div>
-	<form method="post" action="${path }/MyBarApp/Account/login">
-    <div class="input-group">
-	  <span class="input-group-addon" id="basic-addon1">账号</span>
-	  <input type="text" class="form-control" name="input_account" placeholder="Account" aria-describedby="basic-addon1"
-	  	value="${requestScope.loginForm.input_account }">
-	</div>
-	<label for="basic-addon2"><br></label>
-    <div class="input-group">
-	  <span class="input-group-addon" id="basic-addon2">密码</span>
-	  <input type="text" class="form-control" name="input_password"placeholder="Password" aria-describedby="basic-addon2"
-	  	value="${requestScope.loginForm.input_password }">
-	</div>
-	<input type="submit" value="login">
-    </form>
+    
   </body>
 </html>

@@ -54,6 +54,10 @@ public class Bar {
 	public void setIcon(Image icon) {
 		this.icon = icon;
 	}
+	public void setName(String name) {
+		this.name = name;
+		
+	}
 
 
 }

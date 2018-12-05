@@ -4,12 +4,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class ReplyPost extends Post{
 	@NotNull
-	@Column(nullable=false)
+	@Column(name="_order", nullable=false)
 	protected Integer order;
 	
 	@ManyToOne(optional=false)

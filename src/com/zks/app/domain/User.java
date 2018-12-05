@@ -52,8 +52,7 @@ public class User {
 	@Embedded
 	protected UserProfile userProfile = new UserProfile();
 	
-	public User(String account){
-		this.account = account;
+	public User(){
 	}
 	
 	//setters and getters
@@ -119,6 +118,10 @@ public class User {
 
 	public void setUserProfile(UserProfile userProfile) {
 		this.userProfile = userProfile;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
 	}
 	
 }

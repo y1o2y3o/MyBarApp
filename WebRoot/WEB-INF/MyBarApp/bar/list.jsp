@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -29,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="${path }/MyBarApp/Bar/list">贴吧</a>
+	      <a class="navbar-brand" href="">贴吧</a>
 	      <a class="navbar-brand" href="${path }/MyBarApp/Account/register">注册</a>
 	      <a class="navbar-brand" href="${path }/MyBarApp/Account/login">登陆</a>
 	    </div>
@@ -47,11 +48,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="panel panel-default">
 	  <!-- Default panel contents -->
-	  <div class="panel-heading">Panel heading</div>
+	  <c:forEach var="bar" items="${requestScope.barList }">
+	  <div class="panel-heading"><a href="${path }/MyBarApp/Post/list?bar_id=${bar.id}">${bar.name }吧</a></div>
 	  <div class="panel-body">
-	    <p>${sessionScope.user.username }</p>
+	    <p>...</p>
 	  </div>
-	
+	  </c:forEach>
 	</div>
     
   </body>
