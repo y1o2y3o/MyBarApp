@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="${path }/MyBarApp/Post/list?bar_id=${requestScope.mainPost.hostBar.id}">返回</a>
+	      <a class="navbar-brand" href="${path }/MyBarApp/Post/list?page=0&size=20&orderby=lastReplyOn&bar_id=${requestScope.mainPost.hostBar.id}">返回</a>
 	    </div>
 		<form class="navbar-form navbar-left" role="search">
 		  <div class="form-group">
@@ -53,7 +53,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="panel panel-default">
 	  <h2>作者:${requestScope.mainPost.author.username }</h2>
 	  <h2>标题:${requestScope.mainPost.title }</h2>
-	  <h2>内容:${requestScope.mainPost.description }</h2>		
+	  <h2>内容:${requestScope.mainPost.description }</h2><hr>		
+	  <form>
+	  	<div class="radio">
+		  <label>
+		    <input type="radio" name="reply_author_id" id="reply_author_id1" value="" checked>
+		  	全部回复
+		  </label>
+		  <label>
+		    <input type="radio" name="reply_author_id" id="reply_author_id2" value="${requestScope.mainPost.author.username }">
+		      只看楼主
+		  </label>
+		</div>
+		<div class="radio">
+		  <label>
+		    <input type="radio" name="sc" id="sc1" value="asc" checked>
+		  	正序
+		  </label>
+		
+		  <label>
+		    <input type="radio" name="sc" id="sc2" value="desc">
+		       倒序
+		  </label>
+		</div>
+	  </form>
 	  <!-- Default panel contents -->
 	  <c:forEach var="reply" items="${requestScope.mainPost.replies }">
 	  <div class="panel-heading"><a href="">层主:${reply.author.username}</a>
@@ -62,6 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	     ${reply.order }楼  ${reply.createOn } <a href="${path }/MyBarApp/Post/reply"></a>
 	    <a href="" id="dd1" aria-hidden="true" data-toggle="modal" data-target="#modal2" onclick="setModal2('${reply.id}', '${reply.author.id }')">回复</a>
 	  </div>
+	  
 	  
 	  <c:forEach var="secondaryReply" items="${reply.secondaryReplies }">
 	  <div class="panel-body">

@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="panel panel-default">
 	  <!-- Default panel contents -->
 	  <c:forEach var="bar" items="${requestScope.barList }">
-	  <div class="panel-heading"><a href="${path }/MyBarApp/Post/list?bar_id=${bar.id}">${bar.name }吧</a></div>
+	  <div class="panel-heading"><a href="${path }/MyBarApp/Post/list?bar_id=${bar.id}&page=0&size=20&orderby=lastReplyOn">${bar.name }吧</a></div>
 	  <div class="panel-body">
 	    <p>...</p>
 	  </div>

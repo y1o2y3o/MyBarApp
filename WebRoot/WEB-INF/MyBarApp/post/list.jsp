@@ -38,24 +38,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  </div>
 		  <button type="submit" class="btn btn-default">搜索</button>
 		</form>
-		<a class="navbar-brand" href="${path }/MyBarApp/Post/create_main?bar_id=${requestScope.bar.id}">新建</a>
+		<a class="navbar-brand" href="${path }/MyBarApp/Post/create_main?bar_id=${pager.bar.id}">新建</a>
 	  </div><!-- /.container-fluid -->
 	</nav>
-	<h1>${requestScope.bar.name}吧</h1>
+	<h1>${pager.bar.name}吧</h1>
+	<h3>排序依据：</h3>
+	<ul>
+	  <li><a href="${path }/MyBarApp/Post/list?page=0&size=${pager.pageSize }&orderby=lastReplyOn&bar_id=${pager.bar.id}">回复时间</a></li>
+	  <li><a href="${path }/MyBarApp/Post/list?page=0&size=${pager.pageSize }&orderby=createOn&bar_id=${pager.bar.id}">发帖时间</a></li>
+	  <li><a href="${path }/MyBarApp/Post/list?page=0&size=${pager.pageSize }&orderby=replyNum&bar_id=${pager.bar.id}">帖子热度</a></li>
+	  <li><a href="${path }/MyBarApp/Post/list?page=0&size=${pager.pageSize }&orderby=&bar_id=${pager.bar.id}">关注的人</a></li>
+	</ul>
+	
 	<hr>
 	<h2>帖子：</h2>
 	<div class="panel panel-default">
 	
 	  <!-- Default panel contents -->
-	  <c:forEach var="post" items="${requestScope.postList }">
-	  <div class="panel-heading"><a href="${path }/MyBarApp/Post/main?mainpost_id=${post.id}">${post.title }</a></div>
+	  <c:forEach var="post" items="${requestScope.pager.content }">
+	  <div class="panel-heading"><a href="${path }/MyBarApp/Post/main?mainpost_id=${post.id}">#标题-----${post.title }</a></div>
 	  <div class="panel-body">
-	    <p>${post.description }</p>
-	    <hr>${post.author.username}  ${post.createOn }
+	    <p>#内容-----${post.description }</p>
+	    <hr>#楼主：${post.author.username} ---- ${post.createOn }------ ${post.lastReplyOn }
 	  </div>
 		
 	  </c:forEach>
 	</div>
-    
+    <div class="btn-group" role="group" aria-label="...">
+	  <a href="${path }/MyBarApp/Post/list?bar_id=${pager.bar.id}&page=${pager.previousPage}&size=${pager.pageSize}&orderby=${pager.orderby}"><button type="button" class="btn btn-default">上一页</button></a>
+	  ${pager.currentPage + 1 } / ${pager.lastPage + 1}
+	   <a href="${path }/MyBarApp/Post/list?bar_id=${pager.bar.id}&page=${pager.nextPage}&size=${pager.pageSize}&orderby=${pager.orderby}"><button type="button" class="btn btn-default">下一页</button></a>
+	</div>
   </body>
 </html>

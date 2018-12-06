@@ -1,5 +1,8 @@
 package com.zks.app.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +21,8 @@ import com.zks.app.domain.ReplyPost;
 import com.zks.app.domain.SecondaryReplyPost;
 import com.zks.app.domain.User;
 import com.zks.app.service.PostService;
+import com.zks.app.util.PostPager;
+import com.zks.app.util.Pager;
 import com.zks.app.web.form.CreateMainPostForm;
 import com.zks.app.web.form.CreateReplyPostForm;
 import com.zks.app.web.form.CreateSecondaryReplyPostForm;
@@ -31,22 +36,6 @@ public class PostServiceBean implements PostService{
 	BarDao barDao;
 	@Autowired
 	AccountDao accountDao;
-	
-	// 列出指定吧的所有主题帖子
-	public List<MainPost> listAllMain(Long id){
-		return postDao.listAllMain(id);
-	}
-	
-	// 浏览指定贴吧以及主题帖
-	public boolean viewBarById(Long id, HttpServletRequest request){
-		List<MainPost> postList = postDao.listAllMain(id);
-		Bar bar = barDao.findBarById(id);
-		if(bar == null) 
-			return false; // 吧id不是合法的: 返回false
-		request.setAttribute("postList", postList);
-		request.setAttribute("bar", bar);
-		return true;
-	}
 	
 	// 创建主题帖
 	public boolean crateMainPost(CreateMainPostForm form){
@@ -92,7 +81,9 @@ public class PostServiceBean implements PostService{
 		MainPost hostPost = postDao.findMainPostById(form.getInput_hostpost_id());
 		if(hostPost == null)
 			return false; // mainPost_id 不合法
-		
+		//更新宿主主题贴
+		hostPost.setLastReplyOn(new Date());
+		postDao.updatePost(hostPost);
 		replyPost.setAuthor(author);
 		replyPost.setHostPost(hostPost);		
 		// 设置楼层数
@@ -118,11 +109,30 @@ public class PostServiceBean implements PostService{
 		ReplyPost hostReply = postDao.findReplyPostById(form.getInput_hostreply_id());
 		if(hostReply == null)
 			return false;
+		//更新宿主主题贴
+		MainPost hostPost = postDao.findMainPostById(form.getInput_mainpost_id());
+		hostPost.setLastReplyOn(new Date());
+		postDao.updatePost(hostPost);
+		
 		secondaryReplyPost.setAuthor(author);
 		secondaryReplyPost.setHostReply(hostReply);
 		secondaryReplyPost.setReplyTarget(target);
 		
 		postDao.createSecondaryReplyPost(secondaryReplyPost);
 		return true;
+	}
+	
+	// 列出主题贴: 分页
+	public PostPager<MainPost> listMain(Integer page, Integer size, Long bar_id, String orderBy){
+		List<Long> bar_idList = new ArrayList<Long>();
+		bar_idList.add(bar_id);
+		String[] arr = {"createOn", "lastReplyOn", "replyNum",};
+		if(!Arrays.asList(arr).contains(orderBy))
+			orderBy = "lastReplyOn";
+		// set pager
+		PostPager<MainPost> pager = postDao.listMainPost(page, size, null, bar_idList, orderBy);
+		pager.setBar(barDao.findBarById(bar_id)); // set bar
+		
+		return pager;
 	}
 }

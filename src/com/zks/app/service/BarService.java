@@ -9,4 +9,5 @@ import com.zks.app.domain.Bar;
 public interface BarService {
 	public boolean create(Bar bar);
 	public List<Bar> list();
+	public Bar findBarById(Long bar_id);
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.zks.app.dao.BarDao;
 import com.zks.app.domain.Bar;
 import com.zks.app.service.BarService;
 
@@ -18,7 +19,8 @@ import com.zks.app.service.BarService;
 public class BarServiceBean implements BarService{
 	@Autowired
 	SessionFactory sessionFactory;
-	
+	@Autowired
+	BarDao barDao;
 	/**
 	 * 创建贴吧
 	 */
@@ -45,5 +47,9 @@ public class BarServiceBean implements BarService{
 		Query query = session.createQuery("from Bar");
 		
 		return query.list(); 
+	}
+	
+	public Bar findBarById(Long bar_id){
+		return barDao.findBarById(bar_id);
 	}
 }
