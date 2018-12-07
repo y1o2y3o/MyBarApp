@@ -72,32 +72,22 @@ public class PostController {
 		// 创建失败: 遇到未知错误
 		return "error";
 	}
-	
-	// 主题帖显示页面
+
+	// list回复帖: 分页
 	@RequestMapping(value="/main", method=GET)
-	public String viewMainPost(@RequestParam(value="mainpost_id") Long mainpost_id, HttpServletRequest request){
-		if(postService.viewMainPostById(mainpost_id, request))
-			return "post/main";
-		
-		// 显示错误: 未知问题
-		return "error";
-	}
-	// 主题帖显示页面
-	@RequestMapping(value="/main", method=GET)
-	public String listReply(@RequestParam(value="main_id", required=true) Long main_id,
-			@RequestParam(value="post_starter_id", required=true) Long post_starter_id,
-			@RequestParam(value="reply_author_id", required=true) Long reply_author_id,
+	public String listReply(@RequestParam(value="hostPost_id", required=true) Long hostMainId,
+			@RequestParam(value="replyAuthor_id") Long replyAuthorId,
 			@RequestParam(value="sc", required=true) String sc,
 			@RequestParam(value="page", required=true)Integer page,
 			@RequestParam(value="size", required=true)Integer size,
 			HttpServletRequest request){
 		// 参数不合法
-		if(main_id==null||post_starter_id==null||reply_author_id==null||sc==null
-				||page==null||size==null)
+		if(hostMainId==null||sc==null||page==null||size==null)
 			return "error";
-		PostPager pager = postService.listReply()
-			
+		// 设置分页
+		PostPager pager = postService.listReply(page, size, replyAuthorId, hostMainId, sc);
 		request.setAttribute("pager", pager);
+		return "post/main";
 		}
 	// 创建回复帖
 	@RequestMapping(value="/create_reply", method=POST)
@@ -108,7 +98,7 @@ public class PostController {
 			return "post/create_reply";
 		}
 		if(postService.createReply(form))
-			return "redirect:/Post/main?mainpost_id="+form.getInput_hostpost_id();
+			return "redirect:/Post/main?&page=0&size=20&replyAuthor_id=&sc=desc&hostPost_id="+form.getInput_hostpost_id();
 			
 		// 显示错误: 未知问题
 		return "error";
@@ -123,7 +113,7 @@ public class PostController {
 			return "post/create_reply";
 		}
 		if(postService.createSecondaryReply(form))
-			return "redirect:/Post/main?mainpost_id="+form.getInput_mainpost_id();
+			return "redirect:/Post/main?&page=0&size=20&replyAuthor_id=&sc=desc&hostPost_id="+form.getInput_mainpost_id();
 		
 		// 显示错误: 未知问题
 		return "error";

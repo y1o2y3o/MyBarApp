@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.OrderBy;
+
 @Entity
 public class ReplyPost extends Post{
 	@NotNull
@@ -23,6 +25,7 @@ public class ReplyPost extends Post{
 	protected MainPost hostPost;
 	
 	@OneToMany(mappedBy="hostReply", fetch=FetchType.EAGER)
+	@OrderBy(clause="createOn")
 	protected Set<SecondaryReplyPost> secondaryReplies = new HashSet<SecondaryReplyPost>();
 	
 	public Integer getOrder() {

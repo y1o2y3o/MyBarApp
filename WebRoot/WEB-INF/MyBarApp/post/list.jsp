@@ -56,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	  <!-- Default panel contents -->
 	  <c:forEach var="post" items="${requestScope.pager.content }">
-	  <div class="panel-heading"><a href="${path }/MyBarApp/Post/main?mainpost_id=${post.id}">#标题-----${post.title }</a></div>
+	  <div class="panel-heading"><a href="${path }/MyBarApp/Post/main?page=0&size=20&replyAuthor_id=&sc=asc&hostPost_id=${post.id}">#标题-----${post.title }</a></div>
 	  <div class="panel-body">
 	    <p>#内容-----${post.description }</p>
 	    <hr>#楼主：${post.author.username} ---- ${post.createOn }------ ${post.lastReplyOn }

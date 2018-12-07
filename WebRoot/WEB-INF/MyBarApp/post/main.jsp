@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="${path }/MyBarApp/Post/list?page=0&size=20&orderby=lastReplyOn&bar_id=${requestScope.mainPost.hostBar.id}">返回</a>
+	      <a class="navbar-brand" href="${path }/MyBarApp/Post/list?page=0&size=20&orderby=lastReplyOn&bar_id=${pager.hostPost.hostBar.id}">返回</a>
 	    </div>
 		<form class="navbar-form navbar-left" role="search">
 		  <div class="form-group">
@@ -51,34 +51,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<a href="" id="dd1" aria-hidden="true" data-toggle="modal" data-target="#modal1">回复</a>
 	<hr>
 	<div class="panel panel-default">
-	  <h2>作者:${requestScope.mainPost.author.username }</h2>
-	  <h2>标题:${requestScope.mainPost.title }</h2>
-	  <h2>内容:${requestScope.mainPost.description }</h2><hr>		
-	  <form>
+	  <h2>作者:${pager.hostPost.author.username }</h2>
+	  <h2>标题:${pager.hostPost.title }</h2>
+	  <h2>内容:${pager.hostPost.description }</h2><hr>		
+	  <form method="get" action="${path }/MyBarApp/Post/main">
+	  	<input type="hidden" name="page" value="${pager.currentPage }">
+	  	<input type="hidden" name="size" value="${pager.pageSize }">
+	  	<input type="hidden" name="hostPost_id" value="${pager.hostPost.id}">
 	  	<div class="radio">
 		  <label>
-		    <input type="radio" name="reply_author_id" id="reply_author_id1" value="" checked>
+		  	
+		    <input type="radio" name="replyAuthor_id" id="reply_author_id1" value="" 
+		    	<c:if test="${pager.replyAuthorId==null }">checked</c:if>>    
 		  	全部回复
 		  </label>
 		  <label>
-		    <input type="radio" name="reply_author_id" id="reply_author_id2" value="${requestScope.mainPost.author.username }">
+		    <input type="radio" name="replyAuthor_id" id="reply_author_id2" value="${pager.hostPost.author.id }"
+		    	<c:if test="${pager.replyAuthorId!=null }">checked</c:if>>
 		      只看楼主
 		  </label>
 		</div>
 		<div class="radio">
 		  <label>
-		    <input type="radio" name="sc" id="sc1" value="asc" checked>
+		    <input type="radio" name="sc" id="sc1" value="asc" 
+		    	<c:if test="${pager.sc=='asc' }">checked</c:if>>
 		  	正序
 		  </label>
-		
 		  <label>
-		    <input type="radio" name="sc" id="sc2" value="desc">
+		    <input type="radio" name="sc" id="sc2" value="desc"
+		    	<c:if test="${pager.sc=='desc' }">checked</c:if>>
 		       倒序
 		  </label>
+		  <input type="submit" value="提交">
 		</div>
 	  </form>
 	  <!-- Default panel contents -->
-	  <c:forEach var="reply" items="${requestScope.mainPost.replies }">
+	  <c:forEach var="reply" items="${pager.content }">
 	  <div class="panel-heading"><a href="">层主:${reply.author.username}</a>
 	  
 	    <p>${reply.description }</p>
@@ -109,14 +117,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="myModalLabel">回复:${requestScope.mainPost.author.username }</h4>
+	        <h4 class="modal-title" id="myModalLabel">回复:${pager.hostPost.author.username }</h4>
 	      </div>
 	      <div class="modal-body">
 	        <div class="form-group">
 		      <label for="reply">回复</label>
 		      <input type="text" class="form-control" name="input_description" id="reply" ><br>
 		      <input type="text" class="form-control" name="input_user_id" value="${sessionScope.user.id }"><br>
-		      <input type="text" class="form-control" name="input_hostpost_id" value="${requestScope.mainPost.id }" >
+		      <input type="text" class="form-control" name="input_hostpost_id" value="${pager.hostPost.id }" >
 	      </div>	         
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -135,7 +143,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="myModalLabel">回复:${requestScope.mainPost.author.username }</h4>
+	        <h4 class="modal-title" id="myModalLabel">回复楼中楼</h4>
 	      </div>
 	      <div class="modal-body">
 	        <div class="form-group">
@@ -144,7 +152,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      <input type="text" class="form-control" id="input_user_id" name="input_user_id" value="${sessionScope.user.id }"><br>
 		      <input type="text" class="form-control" id="input_hostreply_id" name="input_hostreply_id"  >
 		      <input type="text" class="form-control" id="input_target_user_id" name="input_target_user_id">
-		      <input type="text" class="form-control" id="input_mainpost_id" name="input_mainpost_id" value="${requestScope.mainPost.id }" >
+		      <input type="text" class="form-control" id="input_mainpost_id" name="input_mainpost_id" value="${pager.hostPost.id }" >
 	      </div>
 	     
 	      <div class="modal-footer">
@@ -157,6 +165,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	</form>
 	
-	
+	<div class="btn-group" role="group" aria-label="...">
+	  <a href="${path }/MyBarApp/Post/main?page=${pager.previousPage }&size=${pager.pageSize }&replyAuthor_id=${pager.replyAuthorId }&sc=${pager.sc }&hostPost_id=${pager.hostPost.id}"><button type="button" class="btn btn-default">上一页</button></a>
+	  ${pager.currentPage + 1 } / ${pager.lastPage + 1}
+	   <a href="${path }/MyBarApp/Post/main?page=${pager.nextPage }&size=${pager.pageSize }&replyAuthor_id=${pager.replyAuthorId }&sc=${pager.sc }&hostPost_id=${pager.hostPost.id}"><button type="button" class="btn btn-default">下一页</button></a>
+	</div>
   </body>
 </html>

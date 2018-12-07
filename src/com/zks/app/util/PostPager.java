@@ -12,9 +12,25 @@ public class PostPager<T> extends Pager<T> {
 	
 	// ReplyPost:
 	protected String sc;
-	protected User postStarter;
+	protected Long replyAuthorId;
 	protected MainPost hostPost;
 	
+	public Long getReplyAuthorId() {
+		return replyAuthorId;
+	}
+
+	public void setReplyAuthorId(Long replyAuthorId) {
+		this.replyAuthorId = replyAuthorId;
+	}
+
+	public MainPost getHostPost() {
+		return hostPost;
+	}
+
+	public void setHostPost(MainPost hostPost) {
+		this.hostPost = hostPost;
+	}
+
 	public String getSc() {
 		return sc;
 	}

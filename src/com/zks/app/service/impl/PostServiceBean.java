@@ -59,15 +59,7 @@ public class PostServiceBean implements PostService{
 		
 		return true;
 	}
-	
-	// 浏览指定主题帖内容
-	public boolean viewMainPostById(Long mainpost_id, HttpServletRequest request){
-		MainPost mainPost = postDao.findMainPostById(mainpost_id);
-		if(mainPost==null)
-			return false; // 找不到主题帖: mainpost_id不对
-		request.setAttribute("mainPost", mainPost);
-		return true;
-	}
+
 
 	// 创建回复贴
 	public boolean createReply(CreateReplyPostForm form) {
@@ -133,6 +125,33 @@ public class PostServiceBean implements PostService{
 		PostPager<MainPost> pager = postDao.listMainPost(page, size, null, bar_idList, orderBy);
 		pager.setBar(barDao.findBarById(bar_id)); // set bar
 		
+		return pager;
+	}
+	
+	// 列出回复贴: 分页
+	public PostPager<ReplyPost> listReply(Integer page, Integer size,
+			Long replyAuthorId, Long hostMainId, String sc){
+		// 是否只看楼主?
+		List<Long> replyAuthorIdList = null;
+		if(replyAuthorId != null)	{
+			replyAuthorIdList = new ArrayList<Long>();
+			replyAuthorIdList.add(replyAuthorId);
+		}
+		
+		// 宿主主题帖id
+		List<Long> hostMainIdList = new ArrayList<Long>();
+		hostMainIdList.add(hostMainId);	
+		
+		// 升序还是降序?: 默认降序
+		String[] arr = {"desc", "asc",};
+		if(!Arrays.asList(arr).contains(sc))
+			sc = "desc";
+		
+		// set pager
+		PostPager<ReplyPost> pager = postDao.listReplyPost(page, size, replyAuthorIdList, hostMainIdList, sc);
+		pager.setSc(sc);
+		pager.setHostPost(postDao.findMainPostById(hostMainId));
+		pager.setReplyAuthorId(replyAuthorId);
 		return pager;
 	}
 }

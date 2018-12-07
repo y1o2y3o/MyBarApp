@@ -68,7 +68,7 @@ public class PostDaoBean implements PostDao{
 	}
 	
 	/**
-	 * list回复贴: 分页: 第几页, 单次最大条数, 作者限定范围, 贴吧限定范围, 排序正负
+	 * list回复贴: 分页: 第几页, 单次最大条数, 作者限定范围, 主题帖限定范围, 排序正负
 	 */
 	public PostPager listReplyPost(Integer page, Integer size, 
 			List<Long> author_idList, List<Long> hostMain_idList, String sc){
@@ -95,14 +95,13 @@ public class PostDaoBean implements PostDao{
 		crit.setFirstResult(page*size)
 			.setMaxResults(size);
 		// 设置时间排序
-		if(sc=="desc")
+		if("desc".equals(sc))
 			crit.addOrder(Order.desc("createOn"));
 		else
 			crit.addOrder(Order.asc("createOn"));
 		crit2.setProjection(Projections.rowCount()); 
 		
 		// 设置pager
-		pager.setSc(sc);
 		pager.setPageSize(size);
 		pager.setContent(crit.list());
 		pager.setRecordTotal(((Long)crit2.uniqueResult()).intValue());

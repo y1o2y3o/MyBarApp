@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.zks.app.domain.MainPost;
 import com.zks.app.domain.Post;
+import com.zks.app.domain.ReplyPost;
 import com.zks.app.util.PostPager;
 import com.zks.app.util.Pager;
 import com.zks.app.web.form.CreateMainPostForm;
@@ -19,13 +20,7 @@ public interface PostService {
 	 * @return
 	 */
 	public boolean crateMainPost(CreateMainPostForm form);
-	/**
-	 * 浏览主题帖
-	 * @param mainpost_id
-	 * @param request
-	 * @return
-	 */
-	public boolean viewMainPostById(Long mainpost_id, HttpServletRequest request);
+	
 	/**
 	 * 创建回复贴
 	 * @param form
@@ -46,4 +41,11 @@ public interface PostService {
 	 * @return
 	 */
 	public PostPager<MainPost> listMain(Integer page, Integer size, Long bar_id, String orderBy);
+	
+	/**
+	 * 返回回复贴(分页)
+	 * @return
+	 */
+	public PostPager<ReplyPost> listReply(Integer page, Integer size, 
+			Long replyAuthorId, Long hostMainId, String sc);
 }
