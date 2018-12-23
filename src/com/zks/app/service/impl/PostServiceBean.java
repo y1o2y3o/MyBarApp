@@ -37,6 +37,7 @@ public class PostServiceBean implements PostService{
 	@Autowired
 	AccountDao accountDao;
 	
+	
 	// 创建主题帖
 	public boolean crateMainPost(CreateMainPostForm form){
 		MainPost mainPost = new MainPost();
@@ -48,11 +49,13 @@ public class PostServiceBean implements PostService{
 		if(author == null)
 			return false;
 		System.out.println("author_id:"+author.getId());
+		
 		// 获得post所在贴吧
 		Bar bar = barDao.findBarById(form.getInput_bar_id());
 		if(bar == null)
 			return false;
 		System.out.println("bar_id:"+bar.getId());
+		
 		mainPost.setAuthor(author);
 		mainPost.setHostBar(bar);
 		postDao.createMainPost(mainPost);
@@ -66,6 +69,7 @@ public class PostServiceBean implements PostService{
 		// 创建 replyPost
 		ReplyPost replyPost = new ReplyPost();
 		replyPost.setDescription(form.getInput_description());
+		
 		User author = accountDao.findUserById(form.getInput_user_id());
 		if(author == null)
 			return false; // 作者id不合法
@@ -73,19 +77,23 @@ public class PostServiceBean implements PostService{
 		MainPost hostPost = postDao.findMainPostById(form.getInput_hostpost_id());
 		if(hostPost == null)
 			return false; // mainPost_id 不合法
+		
 		//更新宿主主题贴
 		hostPost.setLastReplyOn(new Date());
 		postDao.updatePost(hostPost);
 		replyPost.setAuthor(author);
-		replyPost.setHostPost(hostPost);		
+		replyPost.setHostPost(hostPost);	
+		
 		// 设置楼层数
 		replyPost.setOrder(1+postDao.getLastReplyOrder(form.getInput_hostpost_id()));
+		
 		// 创建replyPost
 		postDao.createReplyPost(replyPost);
 		
 		return true;
 	}
 
+	
 	// 创建楼中楼回复贴
 	@Override
 	public boolean createSecondaryReply(CreateSecondaryReplyPostForm form) {
@@ -95,12 +103,15 @@ public class PostServiceBean implements PostService{
 		User author = accountDao.findUserById(form.getInput_user_id());
 		if(author == null)
 			return false;
+		
 		User target = accountDao.findUserById(form.getInput_target_user_id());
 		if(target == null)
 			return false;
+		
 		ReplyPost hostReply = postDao.findReplyPostById(form.getInput_hostreply_id());
 		if(hostReply == null)
 			return false;
+		
 		//更新宿主主题贴
 		MainPost hostPost = postDao.findMainPostById(form.getInput_mainpost_id());
 		hostPost.setLastReplyOn(new Date());
@@ -114,19 +125,23 @@ public class PostServiceBean implements PostService{
 		return true;
 	}
 	
+	
 	// 列出主题贴: 分页
 	public PostPager<MainPost> listMain(Integer page, Integer size, Long bar_id, String orderBy){
 		List<Long> bar_idList = new ArrayList<Long>();
 		bar_idList.add(bar_id);
+		
 		String[] arr = {"createOn", "lastReplyOn", "replyNum",};
 		if(!Arrays.asList(arr).contains(orderBy))
 			orderBy = "lastReplyOn";
+		
 		// set pager
 		PostPager<MainPost> pager = postDao.listMainPost(page, size, null, bar_idList, orderBy);
 		pager.setBar(barDao.findBarById(bar_id)); // set bar
 		
 		return pager;
 	}
+	
 	
 	// 列出回复贴: 分页
 	public PostPager<ReplyPost> listReply(Integer page, Integer size,
@@ -152,6 +167,9 @@ public class PostServiceBean implements PostService{
 		pager.setSc(sc);
 		pager.setHostPost(postDao.findMainPostById(hostMainId));
 		pager.setReplyAuthorId(replyAuthorId);
+		
 		return pager;
 	}
+	
+	
 }
